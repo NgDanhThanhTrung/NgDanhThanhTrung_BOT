@@ -34,6 +34,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("🔓 Hướng dẫn Locket", callback_data='dummy')],
         [InlineKeyboardButton("💬 Liên hệ Admin", url=CONTACT_URL)]
     ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
 async def locket_handle(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Xử lý lệnh /locket với nút copy ẩn"""
     message_text = (
