@@ -22,7 +22,6 @@ async def locket_handle(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"✨ **HƯỚNG DẪN CÀI ĐẶT LOCKET GOLD** ✨\n\n"
             f"Vui lòng thực hiện theo đúng trình tự để Module hoạt động ổn định:\n\n"
             f"1️⃣ **Chuẩn bị URL Module:**\n"
-            f"{RAW_URL}\n"
             f"Nhấn nút **Sao chép URL** ở phía trên. Đây là liên kết chứa các tập lệnh (Script) cần thiết.\n\n"
             f"2️⃣ **Thêm vào Shadowrocket:**\n"
             f"Mở app Shadowrocket ➔ Chọn tab **Module** (hình hộp) ➔ Nhấn **Add Module** ➔ Dán URL và nhấn **OK**.\n\n"
