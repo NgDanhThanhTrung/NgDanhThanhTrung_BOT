@@ -7,44 +7,54 @@ from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, Messa
 # Lấy Token từ GitHub Secrets
 TOKEN = os.getenv('BOT_TOKEN')
 RAW_URL = "https://raw.githubusercontent.com/NgDanhThanhTrung/modules/main/LOCKET/Locket_NDTT.sgmodule"
+CONTACT_URL = "https://t.me/NgDanhThanhTrung"
+DONATE_URL = "https://ngdanhthanhtrung.github.io/Bank/"
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(
-        "👋 Chào mừng bạn đến với NgDanhThanhTrung_BOT!\n"
-        "Nhắn từ khóa 'locket' để mình gửi hướng dẫn cài đặt Gold nhé."
-    )
+async def handle_logic(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not update.message or not update.message.text:
+        return
 
-async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text = update.message.text.lower().strip()
-    if "locket" in text:
-        caption = (
-            "⭐ *LOCKET NDTT MODULE \- 2026* ⭐\n"
-            "──────────────\n"
-            "Hướng dẫn giả lập *Locket Gold* vĩnh viễn:\n\n"
-            "1️⃣ *Copy URL Module:* \(Chạm vào link để copy\)\n"
-            f"`{RAW_URL}`\n\n"
-            "2️⃣ *Shadowrocket:* Tab Module \> Add Module \> Dán link\.\n\n"
-            "3️⃣ *HTTPS Decryption:* Cực kỳ quan trọng\! Bạn phải cài chứng chỉ CA và *Bật tin cậy* trong Cài đặt iPhone\.\n\n"
-            "4️⃣ *Hoàn tất:* Bật VPN và mở Locket hưởng thụ\."
+    user_input = update.message.text.strip().lower()
+
+    if user_input == "/start":
+        await update.message.reply_text("👋 Chào mừng bạn đến với NgDanhThanhTrung_BOT!")
+
+    elif user_input == "/locket" or "locket" in user_input:
+        response = (
+            "<b>⭐ LOCKET NDTT MODULE - 2026 ⭐</b>\n"
+            "────────────────\n"
+            "Hướng dẫn giả lập <b>Locket Gold</b> vĩnh viễn:\n\n"
+            "1️⃣ <b>Copy URL Module:</b>\n"
+            f"<code>{RAW_URL}</code>\n\n"
+            "2️⃣ <b>Shadowrocket:</b> Tab Module > Add Module > Dán link.\n\n"
+            "3️⃣ <b>HTTPS Decryption:</b> Cài chứng chỉ CA và <b>Bật tin cậy</b>.\n\n"
+            "4️⃣ <b>Hoàn tất:</b> Bật VPN và mở Locket hưởng thụ."
         )
         keyboard = [
             [InlineKeyboardButton("🚀 Cài nhanh (Shadowrocket)", url=f"shadowrocket://config/add/{RAW_URL}")],
-            [InlineKeyboardButton("💬 Liên hệ Admin", url="https://t.me/NgDanhThanhTrung")],
-            [InlineKeyboardButton("☕ Donate", url="https://ngdanhthanhtrung.github.io/Bank/")]
+            [InlineKeyboardButton("💬 Liên hệ Admin", url=CONTACT_URL)],
+            [InlineKeyboardButton("☕ Donate", url=DONATE_URL)]
         ]
-        await update.message.reply_text(
-            text=caption,
-            reply_markup=InlineKeyboardMarkup(keyboard),
-            parse_mode=ParseMode.MARKDOWN_V2
-        )
+        await update.message.reply_text(response, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode=ParseMode.HTML)
 
-if __name__ == '__main__':
+    elif user_input == "/contact":
+        await update.message.reply_text(f"💬 Liên hệ Admin: {CONTACT_URL}")
+
+    elif user_input == "/donate":
+        await update.message.reply_text(f"☕ Donate: {DONATE_URL}")
+
+def main():
     if not TOKEN:
         print("Lỗi: Không tìm thấy BOT_TOKEN!")
-    else:
-        app = ApplicationBuilder().token(TOKEN).build()
-        app.add_handler(CommandHandler('start', start))
-        app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), handle_message))
-        app.run_polling()
+        return
+
+    app = ApplicationBuilder().token(TOKEN).build()
+    app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND | filters.COMMAND), handle_logic))
+    
+    print("--- 🤖 NgDanhThanhTrung_BOT 2026 Ready ---")
+    app.run_polling(drop_pending_updates=True)
+
+if __name__ == "__main__":
+    main()
