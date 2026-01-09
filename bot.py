@@ -21,8 +21,20 @@ logger = logging.getLogger(__name__)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message_text = (
-        "👋 Chào mừng bạn đến với NgDanhThanhTrung_BOT!\n")
+        "👋 Chào mừng bạn đến với NgDanhThanhTrung_BOT!\n"
+    )
+keyboard = [
+        [InlineKeyboardButton("📞 Liên Hệ: ", url=CONTACT_URL)],
+        [InlineKeyboardButton("☕ Donate ủng hộ", url=DONATE_URL)]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
 
+    await update.message.reply_text(
+        message_text, 
+        reply_markup=reply_markup, 
+        parse_mode=ParseMode.MARKDOWN
+    )
+    
 async def locket_handle(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Xử lý lệnh /locket với nút copy ẩn"""
     message_text = (
