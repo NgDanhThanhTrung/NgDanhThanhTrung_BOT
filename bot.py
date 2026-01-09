@@ -21,10 +21,7 @@ logger = logging.getLogger(__name__)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Xử lý lệnh /start - Đã khôi phục hoạt động"""
-    keyboard = [
-        [InlineKeyboardButton("🔓 Hướng dẫn Locket", callback_data='dummy')],
-        [InlineKeyboardButton("💬 Liên hệ Admin", url=CONTACT_URL)]
-    ]
+
     reply_markup = InlineKeyboardMarkup(keyboard)
     
     await update.message.reply_text(
@@ -33,7 +30,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_markup=reply_markup,
         parse_mode=ParseMode.MARKDOWN
     )
-
+    keyboard = [
+        [InlineKeyboardButton("🔓 Hướng dẫn Locket", callback_data='dummy')],
+        [InlineKeyboardButton("💬 Liên hệ Admin", url=CONTACT_URL)]
+    ]
 async def locket_handle(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Xử lý lệnh /locket với nút copy ẩn"""
     message_text = (
