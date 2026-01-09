@@ -19,10 +19,11 @@ logger = logging.getLogger(__name__)
 
 # --- CÁC HÀM XỬ LÝ LỆNH ---
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def start_handle(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Xử lý lệnh /start - Đã khôi phục hoạt động"""
     
-    await update.message.reply_text("👋 Chào mừng bạn đến với NgDanhThanhTrung_BOT!\nGõ /locket để xem hướng dẫn cài đặt.")
+    await update.message.reply_text(
+        "👋 Chào mừng bạn đến với NgDanhThanhTrung_BOT!\nGõ /locket để xem hướng dẫn cài đặt.")
 
 async def locket_handle(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Xử lý lệnh /locket với nút copy ẩn"""
