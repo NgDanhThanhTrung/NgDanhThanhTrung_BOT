@@ -22,7 +22,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def hdsd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
-        [InlineKeyboardButton("✨ Hướng dẫn Locket Gold", callback_data='locket_guide')],
+        [InlineKeyboardButton("✨ Hướng dẫn Locket Gold", url=https://ngdanhthanhtrung.github.io/locket/)],
         [InlineKeyboardButton("💬 Liên hệ", url=CONTACT_URL), 
          InlineKeyboardButton("☕ Donate", url=DONATE_URL)]
     ]
