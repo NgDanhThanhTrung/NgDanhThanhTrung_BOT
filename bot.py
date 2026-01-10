@@ -18,7 +18,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(f"👋 Chào mừng bạn đến với NgDanhThanhTrung_BOT!\n"
         "Gõ /filters để xem các lệnh ."
     )
-    
+
+async def filters(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(f"/locket - Hướng Dẫn Up LocketGold\n"
+        "/contact - Liên Hệ Để Được Hỗ Trợ\n"
+        "/donate - Ủng Hộ NgDanhThanhTrung Cho Những Dự Án Trong Tương Lai ."
+        
+    )
+
 async def locket(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
             f"✨ **HƯỚNG DẪN CÀI ĐẶT LOCKET GOLD** ✨\n\n"
