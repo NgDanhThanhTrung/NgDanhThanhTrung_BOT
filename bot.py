@@ -19,7 +19,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Gõ /hdsd để xem các lệnh ."
     )
 
-async def HDSD(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def hdsd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(f"/locket - Hướng Dẫn Up LocketGold\n"
         "/contact - Liên Hệ Để Được Hỗ Trợ\n"
         "/donate - Ủng Hộ NgDanhThanhTrung Cho Những Dự Án Trong Tương Lai ."
