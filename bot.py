@@ -16,7 +16,7 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=lo
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(f"👋 Chào mừng bạn đến với NgDanhThanhTrung_BOT!\n"
-        "Gõ /filters để xem hướng dẫn cài đặt."
+        "Gõ /filters để xem các lệnh ."
     )
     
 async def locket(update: Update, context: ContextTypes.DEFAULT_TYPE):
