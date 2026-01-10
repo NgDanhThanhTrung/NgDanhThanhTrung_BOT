@@ -15,11 +15,10 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=lo
 # --- CÁC HÀM XỬ LÝ ---
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(
-        "👋 Chào mừng bạn đến với NgDanhThanhTrung_BOT!\n"
+    await update.message.reply_text(f"👋 Chào mừng bạn đến với NgDanhThanhTrung_BOT!\n"
         "Gõ /locket để xem hướng dẫn cài đặt."
     )
-
+    
 async def locket_handle(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
             f"✨ **HƯỚNG DẪN CÀI ĐẶT LOCKET GOLD** ✨\n\n"
