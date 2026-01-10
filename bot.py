@@ -5,6 +5,7 @@ from telegram.constants import ParseMode
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
 
 # --- CẤU HÌNH ---
+LOCKET_WEB_URL = "https://ngdanhthanhtrung.github.io/locket/"
 TOKEN = os.getenv('BOT_TOKEN')
 RAW_URL = "https://raw.githubusercontent.com/NgDanhThanhTrung/modules/main/LOCKET/Locket_NDTT.sgmodule"
 CONTACT_URL = "https://t.me/NgDanhThanhTrung"
@@ -22,7 +23,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def hdsd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
-        [InlineKeyboardButton("✨ Hướng dẫn Locket Gold", url=https://ngdanhthanhtrung.github.io/locket/)],
+        [InlineKeyboardButton("✨ Hướng dẫn Locket Gold", url=LOCKET_WEB_URL)],
         [InlineKeyboardButton("💬 Liên hệ", url=CONTACT_URL), 
          InlineKeyboardButton("☕ Donate", url=DONATE_URL)]
     ]
