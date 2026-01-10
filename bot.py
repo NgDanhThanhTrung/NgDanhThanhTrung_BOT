@@ -16,10 +16,10 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=lo
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(f"👋 Chào mừng bạn đến với NgDanhThanhTrung_BOT!\n"
-        "Gõ /filters để xem các lệnh ."
+        "Gõ /HDSD để xem các lệnh ."
     )
 
-async def filters(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def HDSD(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(f"/locket - Hướng Dẫn Up LocketGold\n"
         "/contact - Liên Hệ Để Được Hỗ Trợ\n"
         "/donate - Ủng Hộ NgDanhThanhTrung Cho Những Dự Án Trong Tương Lai ."
@@ -66,7 +66,7 @@ def main():
     app.add_handler(CommandHandler("locket", locket))
     app.add_handler(CommandHandler("contact", contact))
     app.add_handler(CommandHandler("donate", donate))
-    app.add_handler(CommandHandler("filters", filters))
+    app.add_handler(CommandHandler("HDSD", HDSD))
     
     print("--- 🤖 NgDanhThanhTrung_BOT Ready ---")
     app.run_polling(drop_pending_updates=True)
