@@ -19,7 +19,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Gõ /filters để xem hướng dẫn cài đặt."
     )
     
-async def locket_handle(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def locket(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
             f"✨ **HƯỚNG DẪN CÀI ĐẶT LOCKET GOLD** ✨\n\n"
             f"Vui lòng thực hiện theo đúng trình tự để Module hoạt động ổn định:\n\n"
@@ -56,13 +56,11 @@ def main():
 
     # Đăng ký các lệnh
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("locket", locket_handle))
+    app.add_handler(CommandHandler("locket", locket))
     app.add_handler(CommandHandler("contact", contact))
     app.add_handler(CommandHandler("donate", donate))
-
-    # Tự động trả lời khi tin nhắn chứa từ "locket"
-    app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND) & filters.Regex(r"(?i)locket"), locket_handle))
-
+    app.add_handler(CommandHandler("filters", filters))
+    
     print("--- 🤖 NgDanhThanhTrung_BOT Ready ---")
     app.run_polling(drop_pending_updates=True)
 
