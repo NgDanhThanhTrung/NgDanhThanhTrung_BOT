@@ -18,6 +18,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
             f"👋 Chào mừng bạn đến với NgDanhThanhTrung_BOT!\n\n"
             f"Gõ /locket, /contact, /donate để kích hoạt tính năng.\n\n"
+            parse_mode='Markdown'
         )
 
 async def locket(update: Update, context: ContextTypes.DEFAULT_TYPE):
