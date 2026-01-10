@@ -16,7 +16,7 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=lo
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(f"👋 Chào mừng bạn đến với NgDanhThanhTrung_BOT!\n"
-        "Gõ /HDSD để xem các lệnh ."
+        "Gõ /hdsd để xem các lệnh ."
     )
 
 async def HDSD(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -66,7 +66,7 @@ def main():
     app.add_handler(CommandHandler("locket", locket))
     app.add_handler(CommandHandler("contact", contact))
     app.add_handler(CommandHandler("donate", donate))
-    app.add_handler(CommandHandler("HDSD", HDSD))
+    app.add_handler(CommandHandler("hdsd", hdsd))
     
     print("--- 🤖 NgDanhThanhTrung_BOT Ready ---")
     app.run_polling(drop_pending_updates=True)
