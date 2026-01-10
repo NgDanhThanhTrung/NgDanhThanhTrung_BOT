@@ -18,35 +18,30 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("👋 Chào mừng bạn đến với NgDanhThanhTrung_BOT!\nGõ /locket để xem hướng dẫn cài đặt.")
 
 async def locket_handle(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text = (
-        f"✨ **HƯỚNG DẪN CÀI ĐẶT LOCKET GOLD** ✨\n\n"
-        f"1️⃣ **Chuẩn bị URL Module:**\n`{RAW_URL}`\n\n"
-        f"2️⃣ **Thêm vào Shadowrocket:**\n"
-        f"Mở app ➔ **Module** ➔ **Add Module** ➔ Dán URL và nhấn **OK**.\n\n"
-        f"3️⃣ **Cấu hình HTTPS Decryption:**\n"
-        f"• Bật **HTTPS Decryption** trong Settings.\n"
-        f"• **Generate New CA Certificate** ➔ **Install**.\n"
-        f"• Vào **Cài đặt máy** ➔ **Tin cậy chứng chỉ** cho Shadowrocket.\n\n"
-        f"4️⃣ **Hoàn tất:** Mở Locket và tận hưởng Gold."
-    )
-    await update.message.reply_text(text, parse_mode='Markdown')
+    await update.message.reply_text(
+            f"✨ **HƯỚNG DẪN CÀI ĐẶT LOCKET GOLD** ✨\n\n"
+            f"Vui lòng thực hiện theo đúng trình tự để Module hoạt động ổn định:\n\n"
+            f"1️⃣ **Chuẩn bị URL Module:**\n"
+            f"Nhấn nút **Sao chép URL** ở phía trên. Đây là liên kết chứa các tập lệnh (Script) cần thiết.\n\n"
+            f"2️⃣ **Thêm vào Shadowrocket:**\n"
+            f"Mở app Shadowrocket ➔ Chọn tab **Module** (hình hộp) ➔ Nhấn **Add Module** ➔ Dán URL và nhấn **OK**.\n\n"
+            f"3️⃣ **Cấu hình HTTPS Decryption (Quan trọng):**\n"
+            f"• Vào tab **Settings** ➔ **HTTPS Decryption**.\n"
+            f"• Bật công tắc **HTTPS Decryption**.\n"
+            f"• Chọn **Generate New CA Certificate** ➔ **Install Certificate**.\n"
+            f"• Vào **Cài đặt máy** ➔ **Đã tải về hồ sơ** ➔ **Cài đặt**.\n"
+            f"• Vào **Cài đặt máy** ➔ **Cài đặt chung** ➔ **Giới thiệu** ➔ **Tin cậy chứng chỉ** ➔ **Bật tin cậy** cho Shadowrocket.\n\n"
+            f"4️⃣ **Hoàn tất & Kiểm tra:**\n"
+            f"Quay lại tab **Home**, nhấn **Connect**. Mở Locket và kiểm tra trạng thái **Gold**.\n\n"
+            f"⚠️ *Lưu ý: Nếu không hiện Gold, hãy vuốt đóng Locket và mở lại.*",
+            parse_mode='Markdown'
+        )
 
 async def contact(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(f"💬 Liên hệ Admin: {CONTACT_URL}")
 
 async def donate(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(f"☕ Donate ủng hộ tại: {DONATE_URL}")
-
-async def filters_handle(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Trả lời đúng danh sách lệnh khi có /filters
-    text = (
-        "• \"/start\"\n"
-        "• \"/locket\"\n"
-        "• \"/contact\"\n"
-        "• \"/donate\"\n"
-        "• \"/filters\""
-    )
-    await update.message.reply_text(text)
 
 # --- KHỞI CHẠY ---
 
@@ -57,14 +52,13 @@ def main():
 
     app = ApplicationBuilder().token(TOKEN).build()
 
-    # Đăng ký các CommandHandler (Chỉ phản hồi khi có dấu /)
+    # Đăng ký các lệnh
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("locket", locket_handle))
     app.add_handler(CommandHandler("contact", contact))
     app.add_handler(CommandHandler("donate", donate))
-    app.add_handler(CommandHandler("filters", filters_handle))
 
-    # Giữ lại tính năng tự động phản hồi khi người dùng gõ chữ "locket" không có dấu /
+    # Tự động trả lời khi tin nhắn chứa từ "locket"
     app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND) & filters.Regex(r"(?i)locket"), locket_handle))
 
     print("--- 🤖 NgDanhThanhTrung_BOT Ready ---")
