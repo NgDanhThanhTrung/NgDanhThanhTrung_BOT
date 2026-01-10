@@ -5,8 +5,9 @@ from telegram.constants import ParseMode
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
 
 # --- CẤU HÌNH ---
+# Nên sử dụng biến môi trường, hoặc dán token vào đây nếu chạy local
+TOKEN = os.getenv('BOT_TOKEN') or "YOUR_TOKEN_HERE"
 LOCKET_WEB_URL = "https://ngdanhthanhtrung.github.io/locket/"
-TOKEN = os.getenv('BOT_TOKEN')
 RAW_URL = "https://raw.githubusercontent.com/NgDanhThanhTrung/modules/main/LOCKET/Locket_NDTT.sgmodule"
 CONTACT_URL = "https://t.me/NgDanhThanhTrung"
 DONATE_URL = "https://ngdanhthanhtrung.github.io/Bank/"
@@ -16,9 +17,11 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=lo
 # --- CÁC HÀM XỬ LÝ ---
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_name = update.effective_user.first_name
     await update.message.reply_text(
-        f"👋 Chào mừng bạn đến với NgDanhThanhTrung_BOT!\n"
-        "Gõ /hdsd để xem các lệnh ."
+        f"👋 Chào mừng <b>{user_name}</b> đến với NgDanhThanhTrung_BOT!\n\n"
+        "Gõ /hdsd để xem danh sách lệnh hỗ trợ.",
+        parse_mode=ParseMode.HTML
     )
 
 async def hdsd(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -29,64 +32,56 @@ async def hdsd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     
-    await update.message.reply_text(
-        f"/locket - Hướng Dẫn Up LocketGold\n"
-        "/contact - Liên Hệ Để Được Hỗ Trợ\n"
-        "/donate - Ủng Hộ NgDanhThanhTrung Cho Những Dự Án Trong Tương Lai .",
-        reply_markup=reply_markup
+    text = (
+        "<b>📚 DANH SÁCH LỆNH:</b>\n\n"
+        "💛 /locket - Hướng dẫn cài đặt Locket Gold\n"
+        "💬 /contact - Liên hệ hỗ trợ trực tiếp\n"
+        "☕ /donate - Ủng hộ duy trì dự án"
     )
+    await update.message.reply_text(text, reply_markup=reply_markup, parse_mode=ParseMode.HTML)
 
 async def locket(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [[InlineKeyboardButton("🔗 Sao chép URL Module (Nhấn giữ)", url=RAW_URL)]]
+    keyboard = [[InlineKeyboardButton("🔗 Sao chép URL Module", url=RAW_URL)]]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    await update.message.reply_text(
-            f"✨ **HƯỚNG DẪN CÀI ĐẶT LOCKET GOLD** ✨\n\n"
-            f"Vui lòng thực hiện theo đúng trình tự để Module hoạt động ổn định:\n\n"
-            f"1️⃣ **Chuẩn bị URL Module:**\n"
-            f"Nhấn nút **Sao chép URL** ở phía dưới. Đây là liên kết chứa các tập lệnh (Script) cần thiết.\n\n"
-            f"2️⃣ **Thêm vào Shadowrocket:**\n"
-            f"Mở app Shadowrocket ➔ Chọn tab **Module** (hình hộp) ➔ Nhấn **Add Module** ➔ Dán URL và nhấn **OK**.\n\n"
-            f"3️⃣ **Cấu hình HTTPS Decryption (Quan trọng):**\n"
-            f"• Vào tab **Settings** ➔ **HTTPS Decryption**.\n"
-            f"• Bật công tắc **HTTPS Decryption**.\n"
-            f"• Chọn **Generate New CA Certificate** ➔ **Install Certificate**.\n"
-            f"• Vào **Cài đặt máy** ➔ **Đã tải về hồ sơ** ➔ **Cài đặt**.\n"
-            f"• Vào **Cài đặt máy** ➔ **Cài đặt chung** ➔ **Giới thiệu** ➔ **Tin cậy chứng chỉ** ➔ **Bật tin cậy** cho Shadowrocket.\n\n"
-            f"4️⃣ **Hoàn tất & Kiểm tra:**\n"
-            f"Quay lại tab **Home**, nhấn **Connect**. Mở Locket và kiểm tra trạng thái **Gold**.\n\n"
-            f"⚠️ *Lưu ý: Nếu không hiện Gold, hãy vuốt đóng Locket và mở lại.*",
-            parse_mode=ParseMode.MARKDOWN,
-            reply_markup=reply_markup
-        )
+    guide_text = (
+        "✨ <b>HƯỚNG DẪN CÀI ĐẶT LOCKET GOLD</b> ✨\n\n"
+        "1️⃣ <b>Copy URL:</b> Nhấn nút bên dưới để lấy link Module.\n\n"
+        "2️⃣ <b>Shadowrocket:</b> Tab <b>Module</b> ➔ <b>Add Module</b> ➔ Dán URL ➔ OK.\n\n"
+        "3️⃣ <b>HTTPS Decryption:</b>\n"
+        "• Bật <b>HTTPS Decryption</b> trong Settings.\n"
+        "• Chọn <b>Generate New CA</b> ➔ Install.\n"
+        "• Vào Cài đặt máy ➔ Đã tải về hồ sơ ➔ Tin cậy chứng chỉ.\n\n"
+        "4️⃣ <b>Kết nối:</b> Bật VPN và tận hưởng!"
+    )
+    await update.message.reply_text(guide_text, parse_mode=ParseMode.HTML, reply_markup=reply_markup)
 
 async def contact(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [[InlineKeyboardButton("💬 Nhắn tin ngay", url=CONTACT_URL)]]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.message.reply_text(f"💬 Liên hệ Admin: {CONTACT_URL}", reply_markup=reply_markup)
+    keyboard = [[InlineKeyboardButton("💬 Nhắn tin cho Admin", url=CONTACT_URL)]]
+    await update.message.reply_text("Nếu gặp lỗi trong quá trình cài đặt, hãy liên hệ:", reply_markup=InlineKeyboardMarkup(keyboard))
 
 async def donate(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [[InlineKeyboardButton("☕ Mở trang Donate", url=DONATE_URL)]]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.message.reply_text(f"☕ Donate ủng hộ tại: {DONATE_URL}", reply_markup=reply_markup)
+    await update.message.reply_text("Cảm ơn bạn đã có lòng ủng hộ dự án! ❤️", reply_markup=InlineKeyboardMarkup(keyboard))
 
 # --- KHỞI CHẠY ---
 
 def main():
-    if not TOKEN:
-        print("❌ Lỗi: Không tìm thấy BOT_TOKEN!")
+    if not TOKEN or TOKEN == "YOUR_TOKEN_HERE":
+        print("❌ Lỗi: Bạn chưa cấu hình BOT_TOKEN trong biến môi trường!")
         return
 
     app = ApplicationBuilder().token(TOKEN).build()
 
-    # Đăng ký các lệnh
+    # Đăng ký các lệnh (Thêm lệnh /help trỏ về hdsd)
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("locket", locket))
     app.add_handler(CommandHandler("contact", contact))
     app.add_handler(CommandHandler("donate", donate))
     app.add_handler(CommandHandler("hdsd", hdsd))
+    app.add_handler(CommandHandler("help", hdsd))
     
-    print("--- 🤖 NgDanhThanhTrung_BOT Ready ---")
+    print("--- 🤖 Bot đang chạy (Nhấn Ctrl+C để dừng) ---")
     app.run_polling(drop_pending_updates=True)
 
 if __name__ == "__main__":
