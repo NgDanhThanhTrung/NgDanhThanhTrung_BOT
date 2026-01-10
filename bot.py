@@ -16,9 +16,7 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=lo
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-            f"👋 Chào mừng bạn đến với NgDanhThanhTrung_BOT!\n\n"
-            f"Gõ /locket, /contact, /donate để kích hoạt tính năng.",
-            parse_mode='Markdown'
+            f"👋 Chào mừng bạn đến với NgDanhThanhTrung_BOT!\nGõ /locket, /contact, /donate để kích hoạt tính năng.",
         )
 
 async def locket(update: Update, context: ContextTypes.DEFAULT_TYPE):
