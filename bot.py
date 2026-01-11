@@ -10,6 +10,7 @@ TOKEN = os.getenv('BOT_TOKEN') or "YOUR_TOKEN_HERE"
 ADMIN_ID = 7346983056 
 USER_LIST_FILE = "users.txt"
 
+# URLs
 LOCKET_RAW_URL = "https://raw.githubusercontent.com/NgDanhThanhTrung/modules/main/LOCKET/Locket_NDTT.sgmodule"
 SPOTIFY_RAW_URL = "https://raw.githubusercontent.com/NgDanhThanhTrung/modules/main/SPOTIFY/SPOTIFY.sgmodule"
 YOUTUBE_RAW_URL = "https://raw.githubusercontent.com/NgDanhThanhTrung/modules/main/YOUTUBE/YOUTUBE.sgmodule"
@@ -36,7 +37,7 @@ def save_user(user_id):
 async def post_init(application):
     commands = [
         BotCommand("start", "Khởi động"),
-        BotCommand("hdsd", "Danh sách lệnh"),
+        BotCommand("hdsd", "Danh sách lệnh hỗ trợ"),
         BotCommand("locket", "Locket Gold"),
         BotCommand("spotify", "Spotify Premium"),
         BotCommand("youtube", "YouTube Premium"),
@@ -46,7 +47,11 @@ async def post_init(application):
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     save_user(update.effective_user.id)
-    await update.message.reply_text(f"👋 Chào mừng <b>{update.effective_user.first_name}</b>!\nGõ /hdsd để xem hướng dẫn.", parse_mode=ParseMode.HTML)
+    await update.message.reply_text(
+        f"👋 Chào mừng <b>{update.effective_user.first_name}</b> đến với NgDanhThanhTrung_BOT!\n\n"
+        "Gõ /hdsd để xem tất cả các hướng dẫn cài đặt Module.",
+        parse_mode=ParseMode.HTML
+    )
 
 async def hdsd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     save_user(update.effective_user.id)
@@ -59,10 +64,29 @@ async def hdsd(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "💛 /locket - Locket Gold\n"
         "🎵 /spotify - Spotify Premium\n"
         "🔴 /youtube - YouTube Premium\n\n"
-        "✌️ /spotify_locketgold - Combo 2-in-1\n"
-        "💎 /spotify_youtube_locket - Siêu Combo\n"
+        "<b>🎁 CÁC BẢN COMBO:</b>\n"
+        "✌️ /spotify_locketgold - Combo 2-trong-1\n"
+        "💎 /spotify_youtube_locket - Siêu Combo 3-trong-1\n\n"
+        "<i>Hãy chọn lệnh tương ứng để lấy link Module!</i>"
     )
     await update.message.reply_text(text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode=ParseMode.HTML)
+
+async def send_guide(update, title, url, note=""):
+    keyboard = [[InlineKeyboardButton(f"🔗 Sao chép URL {title}", url=url)]]
+    guide_text = (
+        f"✨ <b>HƯỚNG DẪN CÀI ĐẶT {title.upper()}</b> ✨\n\n"
+        f"1️⃣ <b>Copy URL:</b> Chạm giữ link bên dưới để sao chép:\n<code>{url}</code>\n\n"
+        f"2️⃣ <b>Shadowrocket:</b> Tab <b>Module</b> ➔ <b>Add Module</b> ➔ Dán URL ➔ OK.\n"
+        f"{note}\n"
+        f"3️⃣ <b>HTTPS Decryption:</b>\n"
+        f"• Bật <b>HTTPS Decryption</b> trong Settings.\n"
+        f"• Chọn <b>Generate New CA</b> ➔ Install.\n"
+        f"• Vào Cài đặt máy ➔ Đã tải về hồ sơ ➔ Tin cậy chứng chỉ.\n\n"
+        f"4️⃣ <b>Kết nối:</b> Bật VPN và tận hưởng!\n\n"
+        f"⚠️ <b>LƯU Ý: NẾU TẮT VPN SẼ MẤT, INBOX AD ĐỂ ĐƯỢC HỖ TRỢ DÙNG LÂU DÀI</b>\n\n"
+        f"👉 Nhắn tin tại đây: {CONTACT_URL}"
+    )
+    await update.message.reply_text(guide_text, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(keyboard))
 
 async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_ID: return
@@ -70,28 +94,26 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Cú pháp: <code>/broadcast Nội dung</code>", parse_mode=ParseMode.HTML)
         return
     msg_text = " ".join(context.args)
+    if not os.path.exists(USER_LIST_FILE): return
     with open(USER_LIST_FILE, "r") as f:
         users = f.read().splitlines()
     sent, fail = 0, 0
     status_msg = await update.message.reply_text(f"🚀 Đang gửi đến {len(users)} người...")
     for user_id in users:
         try:
-            await context.bot.send_message(chat_id=user_id, text=f"📢 <b>THÔNG BÁO:</b>\n\n{msg_text}", parse_mode=ParseMode.HTML)
+            await context.bot.send_message(chat_id=user_id, text=f"📢 <b>THÔNG BÁO TỪ ADMIN:</b>\n\n{msg_text}", parse_mode=ParseMode.HTML)
             sent += 1
             await asyncio.sleep(0.05)
         except: fail += 1
     await status_msg.edit_text(f"✅ Gửi xong!\n- Thành công: {sent}\n- Thất bại: {fail}", parse_mode=ParseMode.HTML)
 
-async def send_guide(update, title, url, note=""):
-    keyboard = [[InlineKeyboardButton(f"🔗 Link {title}", url=url)]]
-    guide_text = (f"✨ <b>{title.upper()}</b>\n\n1️⃣ Copy URL:\n<code>{url}</code>\n\n2️⃣ Dán vào Module Shadowrocket.\n{note}")
-    await update.message.reply_text(guide_text, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(keyboard))
-
 async def locket(u, c): await send_guide(u, "Locket Gold", LOCKET_RAW_URL)
 async def spotify(u, c): await send_guide(u, "Spotify Premium", SPOTIFY_RAW_URL)
 async def youtube(u, c): await send_guide(u, "YouTube Premium", YOUTUBE_RAW_URL)
 async def combo2(u, c): await send_guide(u, "Combo Spotify & Locket", SPOTIFY_LOCKETGOLD_RAW_URL)
-async def combo3(u, c): await send_guide(u, "Siêu Combo 3-in-1", SPOTIFY_YOUTUBE_LOCKET_RAW_URL)
+async def combo3(u, c): 
+    note = "<i>(Lưu ý: File .conf này hoạt động tương tự Module)</i>\n"
+    await send_guide(u, "Siêu Combo 3-trong-1", SPOTIFY_YOUTUBE_LOCKET_RAW_URL, note)
 
 # --- 4. MAIN ---
 def main():
